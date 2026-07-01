@@ -1,0 +1,33 @@
+public class Singleton {
+
+        private Singleton() {
+        System.out.println("Singleton instance is being CREATED...");
+    }
+
+       private static class Holder {
+        private static final Singleton INSTANCE = new Singleton();
+    }
+
+    public static Singleton getInstance() {
+        System.out.println("getInstance() called...");
+        return Holder.INSTANCE;
+    }
+
+    public void showMessage() {
+        System.out.println("Hello from the Singleton instance! (hashcode: " + this.hashCode() + ")");
+    }
+}
+public class SingletonMain {
+    public static void main(String[] args) {
+        System.out.println("---- First call to getInstance() ----");
+        Singleton s1 = Singleton.getInstance();
+        s1.showMessage();
+
+        System.out.println("\n---- Second call to getInstance() ----");
+        Singleton s2 = Singleton.getInstance();
+        s2.showMessage();
+
+        System.out.println("\n---- Checking if both references are the same object ----");
+        System.out.println("s1 == s2 : " + (s1 == s2));
+    }
+}
