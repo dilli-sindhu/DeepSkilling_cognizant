@@ -1,0 +1,28 @@
+FinancialForecaster initialized with 7 historical data points.
+Data: [100.0, 110.0, 105.0, 120.0, 130.0, 125.0, 140.0]
+
+---- Moving Average Forecast (last 3 periods) ----
+Using last 3 values: [130.0, 125.0, 140.0]
+Sum = 395.0, Average = 131.66666666666666
+Forecasted next value: 131.66666666666666
+
+---- Linear Regression Forecast (period 8) ----
+Slope (m) = 5.892857142857143, Intercept (b) = 100.35714285714286
+Equation: y = 5.892857142857143x + 100.35714285714286
+Forecast for period 8: 147.5
+
+---- Growth Rate Forecast (1 periods ahead) ----
+Period 1 -> 2 growth rate: 0.1000
+Period 2 -> 3 growth rate: -0.0455
+Period 3 -> 4 growth rate: 0.1429
+Period 4 -> 5 growth rate: 0.0833
+Period 5 -> 6 growth rate: -0.0385
+Period 6 -> 7 growth rate: 0.1200
+Average growth rate: 0.0603...
+Last known value: 140.0
+Forecast after 1 period(s): 148.44...
+
+==== Summary of Forecasts for Next Month ====
+Moving Average Forecast     : 131.67
+Linear Regression Forecast  : 147.50
+Growth Rate Forecast         : 148.44

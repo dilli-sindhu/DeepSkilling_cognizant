@@ -1,0 +1,11 @@
+DECLARE
+   v_grade CHAR(1) := 'B';
+BEGIN
+   CASE v_grade
+      WHEN 'A' THEN DBMS_OUTPUT.PUT_LINE('Excellent');
+      WHEN 'B' THEN DBMS_OUTPUT.PUT_LINE('Good');
+      WHEN 'C' THEN DBMS_OUTPUT.PUT_LINE('Average');
+      ELSE DBMS_OUTPUT.PUT_LINE('Invalid grade');
+   END CASE;
+END;
+/

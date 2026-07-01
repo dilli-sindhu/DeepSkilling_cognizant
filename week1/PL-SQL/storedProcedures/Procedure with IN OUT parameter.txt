@@ -1,0 +1,17 @@
+CREATE OR REPLACE PROCEDURE double_value (
+   p_value IN OUT NUMBER
+)
+IS
+BEGIN
+   p_value := p_value * 2;
+END double_value;
+/
+
+-- Calling it:
+DECLARE
+   v_num NUMBER := 10;
+BEGIN
+   double_value(v_num);
+   DBMS_OUTPUT.PUT_LINE('Doubled value: ' || v_num);
+END;
+/

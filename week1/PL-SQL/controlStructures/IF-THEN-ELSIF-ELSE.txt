@@ -1,0 +1,12 @@
+DECLARE
+   v_age NUMBER := 20;
+BEGIN
+   IF v_age < 13 THEN
+      DBMS_OUTPUT.PUT_LINE('Child');
+   ELSIF v_age < 20 THEN
+      DBMS_OUTPUT.PUT_LINE('Teenager');
+   ELSE
+      DBMS_OUTPUT.PUT_LINE('Adult');
+   END IF;
+END;
+/
