@@ -1,0 +1,69 @@
+Maven dependency:
+-----------------
+xml<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-junit-jupiter</artifactId>
+    <version>5.11.0</version>
+    <scope>test</scope>
+</dependency>
+
+----------------------------------------------------------------------------------------------------------------------
+
+Classes under test:
+------------------
+javapublic interface PaymentGateway {
+    boolean processPayment(double amount);
+}
+
+public class OrderService {
+    private final PaymentGateway paymentGateway;
+
+    public OrderService(PaymentGateway paymentGateway) {
+        this.paymentGateway = paymentGateway;
+    }
+
+    public String placeOrder(double amount) {
+        if (paymentGateway.processPayment(amount)) {
+            return "Order confirmed";
+        }
+        return "Payment failed";
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------
+ OrderServiceTest.java:
+-----------------------
+javaimport org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class OrderServiceTest {
+
+    @Mock
+    private PaymentGateway paymentGateway;
+
+    @Test
+    void placeOrder_successfulPayment_returnsConfirmation() {
+        // Stubbing: define mock's behavior
+        when(paymentGateway.processPayment(100.0)).thenReturn(true);
+
+        OrderService orderService = new OrderService(paymentGateway);
+        String result = orderService.placeOrder(100.0);
+
+        assertEquals("Order confirmed", result);
+    }
+
+    @Test
+    void placeOrder_failedPayment_returnsFailureMessage() {
+        when(paymentGateway.processPayment(50.0)).thenReturn(false);
+
+        OrderService orderService = new OrderService(paymentGateway);
+        String result = orderService.placeOrder(50.0);
+
+        assertEquals("Payment failed", result);
+    }
+}

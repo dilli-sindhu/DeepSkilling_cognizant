@@ -1,0 +1,57 @@
+Class under test
+----------------
+javapublic class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int divide(int a, int b) {
+        if (b == 0) throw new ArithmeticException("Cannot divide by zero");
+        return a / b;
+    }
+
+    public boolean isEven(int n) {
+        return n % 2 == 0;
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------
+
+CalculatorTest.java
+-------------------
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CalculatorTest {
+
+    private final Calculator calculator = new Calculator();
+
+    @Test
+    void testAdd() {
+        assertEquals(5, calculator.add(2, 3), "2 + 3 should equal 5");
+    }
+
+    @Test
+    void testDivideByZeroThrowsException() {
+        ArithmeticException exception = assertThrows(
+            ArithmeticException.class,
+            () -> calculator.divide(10, 0)
+        );
+        assertEquals("Cannot divide by zero", exception.getMessage());
+    }
+
+    @Test
+    void testIsEven() {
+        assertAll("isEven checks",
+            () -> assertTrue(calculator.isEven(4), "4 should be even"),
+            () -> assertFalse(calculator.isEven(7), "7 should be odd")
+        );
+    }
+
+    @Test
+    void testDivideResultNotNull() {
+        Integer result = calculator.divide(10, 2);
+        assertNotNull(result);
+        assertEquals(5, result);
+    }
+}

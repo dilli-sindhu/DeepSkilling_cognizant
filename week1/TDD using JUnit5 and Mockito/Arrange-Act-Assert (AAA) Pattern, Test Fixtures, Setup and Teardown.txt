@@ -1,0 +1,88 @@
+class under test
+-------------------
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ShoppingCart {
+    private final List<String> items = new ArrayList<>();
+
+    public void addItem(String item) {
+        items.add(item);
+    }
+
+    public void removeItem(String item) {
+        items.remove(item);
+    }
+
+    public int itemCount() {
+        return items.size();
+    }
+
+    public List<String> getItems() {
+        return items;
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+
+ShoppingCartTest.java:
+javaimport org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+class ShoppingCartTest {
+
+    private ShoppingCart cart;
+
+    @BeforeEach
+    void setUp() {
+        // Fixture created fresh before every test
+        cart = new ShoppingCart();
+        System.out.println("Setting up a new cart");
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Cleanup after every test
+        System.out.println("Tearing down cart");
+        cart = null;
+    }
+
+    @Test
+    void addingItemIncreasesCount() {
+        // Arrange
+        String item = "Book";
+
+        // Act
+        cart.addItem(item);
+
+        // Assert
+        assertEquals(1, cart.itemCount());
+        assertTrue(cart.getItems().contains(item));
+    }
+
+    @Test
+    void removingItemDecreasesCount() {
+        // Arrange
+        cart.addItem("Pen");
+        cart.addItem("Notebook");
+
+        // Act
+        cart.removeItem("Pen");
+
+        // Assert
+        assertEquals(1, cart.itemCount());
+        assertFalse(cart.getItems().contains("Pen"));
+    }
+
+    @Test
+    void emptyCartHasZeroItems() {
+        // Arrange (fixture from setUp already gives an empty cart)
+
+        // Act
+        int count = cart.itemCount();
+
+        // Assert
+        assertEquals(0, count);
+    }
+}

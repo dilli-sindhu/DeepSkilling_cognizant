@@ -1,0 +1,65 @@
+OrderServiceInteractionTest.java:
+--------------------------------------
+
+javaimport org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InOrder;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class OrderServiceInteractionTest {
+
+    @Mock
+    private PaymentGateway paymentGateway;
+
+    @Test
+    void placeOrder_callsProcessPaymentExactlyOnce() {
+        when(paymentGateway.processPayment(anyDouble())).thenReturn(true);
+        OrderService orderService = new OrderService(paymentGateway);
+
+        orderService.placeOrder(75.0);
+
+        // Verify the mock was called exactly once with this argument
+        verify(paymentGateway, times(1)).processPayment(75.0);
+    }
+
+    @Test
+    void placeOrder_neverCallsPaymentForZeroAmount() {
+        // Suppose business rule: zero-amount orders skip payment (hypothetical)
+        OrderService orderService = new OrderService(paymentGateway);
+
+        // If placeOrder had that guard, we'd verify like this:
+        verify(paymentGateway, never()).processPayment(0.0);
+    }
+
+    @Test
+    void multipleOrders_verifyCallCountAndOrder() {
+        when(paymentGateway.processPayment(anyDouble())).thenReturn(true);
+        OrderService orderService = new OrderService(paymentGateway);
+
+        orderService.placeOrder(20.0);
+        orderService.placeOrder(30.0);
+
+        // Verify total number of calls regardless of argument
+        verify(paymentGateway, times(2)).processPayment(anyDouble());
+
+        // Verify order of calls
+        InOrder inOrder = inOrder(paymentGateway);
+        inOrder.verify(paymentGateway).processPayment(20.0);
+        inOrder.verify(paymentGateway).processPayment(30.0);
+    }
+
+    @Test
+    void verifyNoMoreInteractionsAfterExpectedCalls() {
+        when(paymentGateway.processPayment(10.0)).thenReturn(true);
+        OrderService orderService = new OrderService(paymentGateway);
+
+        orderService.placeOrder(10.0);
+
+        verify(paymentGateway).processPayment(10.0);
+        verifyNoMoreInteractions(paymentGateway);
+    }
+}
