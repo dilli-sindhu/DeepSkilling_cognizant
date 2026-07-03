@@ -1,0 +1,77 @@
+Exercise 1: Configuring a Basic Spring Application
+
+**pom.xml:**
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>6.1.10</version>
+    </dependency>
+</dependencies>
+```
+
+**applicationContext.xml** (`src/main/resources`):
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="greetingService" class="com.example.service.GreetingService"/>
+
+</beans>
+```
+
+**GreetingService.java:**
+```java
+package com.example.service;
+
+public class GreetingService {
+    public String greet(String name) {
+        return "Hello, " + name + "! Welcome to Spring.";
+    }
+}
+```
+
+**MainApp.java:**
+```java
+package com.example;
+
+import com.example.service.GreetingService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        GreetingService service = context.getBean("greetingService", GreetingService.class);
+        System.out.println(service.greet("World"));
+    }
+}
+```
+
+**Equivalent Java-config version** (modern alternative, no XML):
+```java
+package com.example.config;
+
+import com.example.service.GreetingService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+    @Bean
+    public GreetingService greetingService() {
+        return new GreetingService();
+    }
+}
+```
+```java
+ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+```
+
+---

@@ -1,0 +1,95 @@
+Exercise 2: Implementing Dependency Injection
+Engine.java:
+package com.example.model;
+
+public class Engine {
+    private final String type;
+
+    public Engine(String type) {
+        this.type = type;
+    }
+
+    public String start() {
+        return type + " engine started.";
+    }
+}
+```
+
+Car.java (constructor injection):
+package com.example.model;
+
+public class Car {
+    private final Engine engine;
+
+    // Constructor Injection
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+
+    public void drive() {
+        System.out.println(engine.start() + " Car is now driving.");
+    }
+}
+```
+
+**XML configuration:**
+```xml
+<bean id="engine" class="com.example.model.Engine">
+    <constructor-arg value="V8"/>
+</bean>
+
+<bean id="car" class="com.example.model.Car">
+    <constructor-arg ref="engine"/>
+</bean>
+```
+
+**Setter injection alternative:**
+```java
+public class Car {
+    private Engine engine;
+
+    public void setEngine(Engine engine) {   // Setter Injection
+        this.engine = engine;
+    }
+
+    public void drive() {
+        System.out.println(engine.start() + " Car is now driving.");
+    }
+}
+```
+```xml
+<bean id="car" class="com.example.model.Car">
+    <property name="engine" ref="engine"/>
+</bean>
+```
+
+**Annotation-based version (recommended in practice):**
+```java
+@Component
+public class Car {
+    private final Engine engine;
+
+    @Autowired
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+
+    public void drive() {
+        System.out.println(engine.start() + " Car is now driving.");
+    }
+}
+
+@Component
+public class Engine {
+    public String start() {
+        return "V8 engine started.";
+    }
+}
+```
+
+**Runner:**
+```java
+ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+Car car = context.getBean("car", Car.class);
+car.drive();
+```
