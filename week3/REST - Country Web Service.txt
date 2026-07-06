@@ -1,0 +1,46 @@
+ REST - Country Web Service
+Country.java (reuse model above, add a no-arg + all-args constructor for convenience)
+javapackage com.example.demo.model;
+
+public class Country {
+    private String code;
+    private String name;
+    private String capital;
+
+    public Country() {}
+
+    public Country(String code, String name, String capital) {
+        this.code = code;
+        this.name = name;
+        this.capital = capital;
+    }
+
+    public String getCode() { return code; }
+    public void setCode(String code) { this.code = code; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getCapital() { return capital; }
+    public void setCapital(String capital) { this.capital = capital; }
+}
+CountryController.java
+javapackage com.example.demo.controller;
+
+import com.example.demo.model.Country;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class CountryController {
+
+    @GetMapping("/countries")
+    public List<Country> getAllCountries() {
+        return List.of(
+            new Country("IN", "India", "New Delhi"),
+            new Country("US", "United States", "Washington D.C."),
+            new Country("FR", "France", "Paris")
+        );
+    }
+}
+Test: GET http://localhost:8080/countries → returns JSON array of countries.

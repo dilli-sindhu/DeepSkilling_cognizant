@@ -1,0 +1,89 @@
+authentication service that returns JWT
+Add dependency (pom.xml):
+xml<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.12.5</version>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.12.5</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>0.12.5</version>
+    <scope>runtime</scope>
+</dependency>
+JwtService.java
+javapackage com.example.demo.service;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Service;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
+
+@Service
+public class JwtService {
+
+    // In production, load this from a secure config/secret manager, not hardcoded
+    private final SecretKey key = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
+
+    public String generateToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
+                .signWith(key)
+                .compact();
+    }
+
+    public String extractUsername(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+}
+AuthController.java
+javapackage com.example.demo.controller;
+
+import com.example.demo.service.JwtService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+public class AuthController {
+
+    private final JwtService jwtService;
+
+    public AuthController(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
+
+    record LoginRequest(String username, String password) {}
+
+    @PostMapping("/authenticate")
+    public Map<String, String> authenticate(@RequestBody LoginRequest request) {
+        // Replace with real credential check (DB, UserDetailsService, etc.)
+        if ("admin".equals(request.username()) && "password".equals(request.password())) {
+            String token = jwtService.generateToken(request.username());
+            return Map.of("token", token);
+        }
+        throw new RuntimeException("Invalid credentials");
+    }
+}
+Test with curl:
+bashcurl -X POST http://localhost:8080/authenticate \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"password"}'
+Returns something like {"token": "eyJhbGciOiJIUzI1NiJ9..."}.

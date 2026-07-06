@@ -1,0 +1,49 @@
+Spring Core – Load Country from Spring Configuration XML
+Country.java
+javapackage com.example.demo.model;
+
+public class Country {
+    private String name;
+    private String capital;
+    private long population;
+
+    // getters and setters
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getCapital() { return capital; }
+    public void setCapital(String capital) { this.capital = capital; }
+    public long getPopulation() { return population; }
+    public void setPopulation(long population) { this.population = population; }
+
+    @Override
+    public String toString() {
+        return "Country{name='" + name + "', capital='" + capital + "', population=" + population + "}";
+    }
+}
+beans.xml (place in src/main/resources)
+xml<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="country" class="com.example.demo.model.Country">
+        <property name="name" value="India" />
+        <property name="capital" value="New Delhi" />
+        <property name="population" value="1400000000" />
+    </bean>
+</beans>
+Loading it (plain Spring core, no Boot autoconfig):
+javapackage com.example.demo;
+
+import com.example.demo.model.Country;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class CountryXmlDemo {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        Country country = (Country) context.getBean("country");
+        System.out.println(country);
+    }
+}
