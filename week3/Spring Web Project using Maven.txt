@@ -48,4 +48,5 @@ public class SpringRestHandsonApplication {
         SpringApplication.run(SpringRestHandsonApplication.class, args);
     }
 }
-Run with mvn spring-boot:run. Should start on http://localhost:8080.
+Run with mvn spring-boot:
+run. Should start on http://localhost:8080.
