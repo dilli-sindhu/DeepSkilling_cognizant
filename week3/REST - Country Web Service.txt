@@ -1,5 +1,6 @@
  REST - Country Web Service
 Country.java (reuse model above, add a no-arg + all-args constructor for convenience)
+
 javapackage com.example.demo.model;
 
 public class Country {
