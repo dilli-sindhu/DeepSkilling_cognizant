@@ -33,7 +33,9 @@ xml<?xml version="1.0" encoding="UTF-8"?>
         <property name="population" value="1400000000" />
     </bean>
 </beans>
+
 Loading it (plain Spring core, no Boot autoconfig):
+
 javapackage com.example.demo;
 
 import com.example.demo.model.Country;
