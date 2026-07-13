@@ -3,6 +3,8 @@
 Two independent Spring Boot 3 microservices, each with its own database, entities, DTOs,
 service layer, exception handling, and REST controller.
 
+
+
 ```
 microservices/
 ├── accounts-service/   → runs on port 8080
