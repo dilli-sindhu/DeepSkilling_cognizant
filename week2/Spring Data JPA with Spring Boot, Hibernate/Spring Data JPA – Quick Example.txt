@@ -1,6 +1,7 @@
  "Spring Data JPA – Quick Example"
 
 **pom.xml (Spring Boot starters):**
+
 ```xml
 <dependencies>
     <dependency>
