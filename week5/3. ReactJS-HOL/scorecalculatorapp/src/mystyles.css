@@ -1,0 +1,28 @@
+.score-card {
+  width: 350px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 2px solid #4a90e2;
+  border-radius: 10px;
+  background-color: #f5f9ff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.score-card h2 {
+  color: #4a90e2;
+  margin-bottom: 15px;
+}
+
+.score-card p {
+  font-size: 16px;
+  margin: 8px 0;
+  color: #333;
+}
+
+.score-card .average {
+  font-size: 18px;
+  color: #2e7d32;
+  margin-top: 15px;
+}
