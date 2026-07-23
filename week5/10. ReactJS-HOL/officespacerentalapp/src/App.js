@@ -1,5 +1,4 @@
 import React from 'react';
-
 function App() {
   // Step 2: JSX element for the heading
   const heading = <h1>Office Space Rental Listings</h1>;
@@ -55,5 +54,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
