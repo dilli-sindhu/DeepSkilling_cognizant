@@ -10,7 +10,6 @@ Exercise 1: Configuring a Basic Spring Application
     </dependency>
 </dependencies>
 ```
-
 **applicationContext.xml** (`src/main/resources`):
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
